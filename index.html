@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drum-Kit</title>
+    <style>
+        *{
+            margin: 0%;
+            padding: 0%;
+            box-sizing: border-box;
+        }
+        html{
+            font-size: 62.5%;
+        }
+        .keys{
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            background-color: aqua;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+        }
+        .key{
+            width: 75px;
+            height: 75px;
+            border: 2px solid gray;
+            margin: 5px;
+            background-color: chartreuse;
+            transition: all 0.05s;
+            cursor: pointer;
+        }
+        .playing{
+            border-color: black;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px black;
+
+        }
+        kbd{
+            display: block;
+            font-size:5rem ;
+        }
+        .sound{
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            letter-spacing: 0.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="keys">
+        <div class="key" data-key="75" id="kick">
+            <kbd>K</kbd>
+            <span class="sound">Kick</span>
+        </div>
+        <div class="key" data-key="83" id="snare">
+            <kbd>S</kbd>
+            <span class="sound">Snare</span>
+        </div>
+        <div class="key" data-key="72" id="hihat">
+            <kbd>H</kbd>
+            <span class="sound">Hi-Hat</span>
+        </div>
+        <div class="key" data-key="67" id="crash">
+            <kbd>C</kbd>
+            <span class="sound">Crash</span>
+        </div>
+    </div>
+
+    <audio src="kick.wav" data-key="75" id="kickaudio"></audio>
+    <audio src="snare.wav" data-key="83" id="snareaudio"></audio>
+    <audio src="hihat.wav" data-key="72" id="hihataudio"></audio>
+    <audio src="crash.wav" data-key="67" id="crashaudio"></audio>
+
+
+
+
+
+
+
+
+
+
+
+    <script>
+        window.addEventListener('keydown',(e)=>{
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+            if(!audio) return; //stops the function
+            audio.currentTime = 0; // rewind audio to the start
+            audio.play();
+
+            key.classList.add("playing");
+
+            
+        });
+
+        function removeTransition(e){
+            if(e.propertyName !== "transform") return;
+
+            this.classList.remove("playing");
+            
+            
+
+        }
+        const keys = document.querySelectorAll(".key");
+        keys.forEach(key=> key.addEventListener("transitionend",removeTransition));
+
+        const kick = document.getElementById("kick");
+        const snare = document.getElementById("snare");
+        const hihat = document.getElementById("hihat");
+        const crash = document.getElementById("crash");
+        const kickaudio = document.getElementById("kickaudio");
+        const snareaudio = document.getElementById("snareaudio");
+        const hihataudio = document.getElementById("hihataudio");
+        const crashaudio = document.getElementById("crashaudio");
+
+        kick.addEventListener("click",()=>{
+            kickaudio.currentTime = 0;
+            kickaudio.play();
+            kick.classList.add("playing");
+        })
+        snare.addEventListener("click",()=>{
+            snareaudio.currentTime=0;
+            snareaudio.play();
+            snare.classList.add("playing");
+        })
+        hihat.addEventListener("click",()=>{
+            hihataudio.currentTime = 0;
+            hihataudio.play();
+            hihat.classList.add("playing");
+        })
+        crash.addEventListener("click",()=>{
+            crashaudio.currentTime = 0;
+            crashaudio.play();
+            crash.classList.add("playing");
+        })
+
+        
+        
+
+    </script>
+    
+</body>
+</html>
